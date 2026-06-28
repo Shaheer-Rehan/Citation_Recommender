@@ -1,0 +1,979 @@
+
+<title>Academic Paper Recommender — Project Roadmap</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:          #08121D;
+  --surface:     #0F1E2E;
+  --surface-2:   #162840;
+  --surface-3:   #1C3352;
+  --border:      #1E3A58;
+  --border-dim:  #142B44;
+  --cyan:        #18D9F0;
+  --cyan-dim:    rgba(24,217,240,0.10);
+  --cyan-mid:    rgba(24,217,240,0.25);
+  --amber:       #F5A623;
+  --amber-dim:   rgba(245,166,35,0.10);
+  --green:       #31D68A;
+  --green-dim:   rgba(49,214,138,0.12);
+  --purple:      #9E8BFF;
+  --purple-dim:  rgba(158,139,255,0.12);
+  --red:         #FF6B6B;
+  --text:        #A8C8E0;
+  --text-muted:  #4E7898;
+  --text-bright: #E2F0FF;
+  --mono: 'Cascadia Code','Fira Code','Consolas',ui-monospace,monospace;
+  --sans: 'Segoe UI',system-ui,-apple-system,sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.65;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 48px 28px 100px;
+}
+
+/* ── Typography ── */
+h1 { font-size: 2rem; font-weight: 700; color: var(--text-bright); letter-spacing: -0.02em; text-wrap: balance; }
+h2 { font-size: 1.1rem; font-weight: 600; color: var(--text-bright); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 24px; }
+h3 { font-size: 0.95rem; font-weight: 600; color: var(--text-bright); margin-bottom: 8px; }
+p  { max-width: 72ch; }
+code { font-family: var(--mono); font-size: 0.82em; color: var(--cyan); background: var(--cyan-dim); padding: 1px 5px; border-radius: 3px; }
+strong { color: var(--text-bright); font-weight: 600; }
+
+/* ── Hero ── */
+.hero {
+  padding-bottom: 48px;
+  border-bottom: 1px solid var(--border-dim);
+  margin-bottom: 48px;
+}
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: var(--cyan);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+.hero h1 { margin-bottom: 14px; }
+.hero-tagline {
+  font-size: 1rem;
+  color: var(--text);
+  max-width: 60ch;
+  margin-bottom: 20px;
+}
+.hero-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+.pill {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  padding: 4px 10px;
+  border-radius: 3px;
+  border: 1px solid;
+  letter-spacing: 0.04em;
+}
+.pill-cyan  { border-color: var(--cyan);   color: var(--cyan);   background: var(--cyan-dim); }
+.pill-amber { border-color: var(--amber);  color: var(--amber);  background: var(--amber-dim); }
+.pill-green { border-color: var(--green);  color: var(--green);  background: var(--green-dim); }
+
+/* ── Concept banner ── */
+.concept {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--cyan);
+  border-radius: 0 8px 8px 0;
+  padding: 28px 32px;
+  margin-bottom: 56px;
+}
+.concept h2 { margin-bottom: 12px; }
+.concept > p { margin-bottom: 20px; color: var(--text); }
+.compare-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 16px;
+}
+@media (max-width: 640px) { .compare-grid { grid-template-columns: 1fr; } }
+.compare-box {
+  padding: 16px 18px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+}
+.compare-box.neg { background: rgba(255,107,107,0.06); border-color: rgba(255,107,107,0.25); }
+.compare-box.pos { background: var(--cyan-dim); border-color: var(--cyan-mid); }
+.compare-label {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.compare-box.neg .compare-label { color: var(--red); }
+.compare-box.pos .compare-label { color: var(--cyan); }
+.compare-box p { font-size: 0.88rem; max-width: 100%; }
+
+/* ── Pipeline section ── */
+.pipeline-section { margin-bottom: 64px; }
+
+.pipeline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  position: relative;
+}
+
+/* Phase block */
+.phase-block {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+.phase-block.day1 { border-left: 3px solid var(--green); }
+.phase-block.day2 { border-left: 3px solid var(--purple); }
+.phase-block.core-phase { border-color: var(--cyan); box-shadow: 0 0 32px rgba(24,217,240,0.07); }
+
+.phase-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border-dim);
+  background: var(--surface-2);
+}
+.phase-num {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+}
+.phase-name {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-bright);
+  letter-spacing: 0.04em;
+  flex: 1;
+}
+.day-badge {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  padding: 2px 8px;
+  border-radius: 3px;
+  letter-spacing: 0.06em;
+}
+.day-badge.d1 { background: var(--green-dim); color: var(--green); border: 1px solid rgba(49,214,138,0.25); }
+.day-badge.d2 { background: var(--purple-dim); color: var(--purple); border: 1px solid rgba(158,139,255,0.25); }
+.core-tag {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--cyan);
+  background: var(--cyan-dim);
+  border: 1px solid var(--cyan-mid);
+  padding: 2px 8px;
+  border-radius: 3px;
+  letter-spacing: 0.06em;
+}
+
+.phase-body {
+  padding: 20px 24px;
+}
+
+/* Flow nodes inside a phase */
+.flow-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.flow-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.node {
+  background: var(--surface-3);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 16px;
+  min-width: 140px;
+  text-align: center;
+  position: relative;
+}
+.node-title {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--text-bright);
+  font-weight: 500;
+  display: block;
+  margin-bottom: 2px;
+}
+.node-sub {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  display: block;
+  line-height: 1.4;
+}
+.node.core {
+  border-color: var(--cyan);
+  background: rgba(24,217,240,0.06);
+  box-shadow: 0 0 24px rgba(24,217,240,0.12);
+}
+.node.core .node-title { color: var(--cyan); }
+
+.arr {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+.arr-v {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  text-align: center;
+  line-height: 1;
+}
+
+/* Down-arrow connector between phases */
+.phase-connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 0;
+  gap: 0;
+}
+.connector-line {
+  width: 2px;
+  height: 20px;
+  background: var(--border);
+}
+.connector-head {
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 8px solid var(--border);
+}
+
+/* Branch (query modes) */
+.branch-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+.branch-arms {
+  display: flex;
+  gap: 40px;
+  position: relative;
+  width: 100%;
+  justify-content: center;
+}
+.branch-arms::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 220px;
+  height: 1px;
+  background: var(--border);
+}
+.branch-arms::after {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: calc(50% - 110px);
+  width: 1px;
+  height: 24px;
+  background: var(--border);
+}
+.branch-right-line {
+  position: absolute;
+  top: -12px;
+  right: calc(50% - 110px);
+  width: 1px;
+  height: 24px;
+  background: var(--border);
+}
+.branch-arm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.branch-merge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+}
+.branch-merge::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 220px;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── Detail cards ── */
+.details-section { margin-bottom: 64px; }
+.cards-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 900px) { .cards-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .cards-grid { grid-template-columns: 1fr; } }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.card.span2 { grid-column: span 2; }
+.card.span3 { grid-column: span 3; }
+@media (max-width: 900px) {
+  .card.span2 { grid-column: span 2; }
+  .card.span3 { grid-column: span 2; }
+}
+@media (max-width: 600px) {
+  .card.span2, .card.span3 { grid-column: span 1; }
+}
+
+.card-eyebrow {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 2px;
+}
+.card.highlight-cyan { border-left: 3px solid var(--cyan); }
+.card.highlight-amber { border-left: 3px solid var(--amber); }
+.card.highlight-green { border-left: 3px solid var(--green); }
+.card.highlight-purple { border-left: 3px solid var(--purple); }
+
+.detail-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.detail-list li {
+  font-size: 0.85rem;
+  padding-left: 14px;
+  position: relative;
+  color: var(--text);
+}
+.detail-list li::before {
+  content: '·';
+  position: absolute;
+  left: 0;
+  color: var(--text-muted);
+}
+
+.formula-box {
+  background: var(--surface-3);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px 16px;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  color: var(--amber);
+  line-height: 1.8;
+}
+.formula-box .comment { color: var(--text-muted); font-size: 0.76rem; }
+
+.metric-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+.metric-chip {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  padding: 3px 10px;
+  border-radius: 3px;
+  background: var(--surface-3);
+  border: 1px solid var(--border);
+  color: var(--text-bright);
+}
+
+/* ── File tree ── */
+.file-tree {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--text);
+  background: var(--surface-3);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px 18px;
+  line-height: 1.9;
+}
+.file-tree .dir  { color: var(--cyan); }
+.file-tree .file { color: var(--text); }
+.file-tree .note { color: var(--text-muted); font-size: 0.72rem; }
+
+/* ── Day plan ── */
+.day-plan-section { margin-bottom: 64px; }
+.day-plan-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+@media (max-width: 640px) { .day-plan-grid { grid-template-columns: 1fr; } }
+
+.day-col {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.day-col-header {
+  padding: 14px 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-bright);
+  border-bottom: 1px solid var(--border-dim);
+}
+.day-col-header.d1 { background: var(--green-dim); border-bottom-color: rgba(49,214,138,0.2); color: var(--green); }
+.day-col-header.d2 { background: var(--purple-dim); border-bottom-color: rgba(158,139,255,0.2); color: var(--purple); }
+
+.day-tasks { padding: 16px 20px; display: flex; flex-direction: column; gap: 14px; }
+.task-item { display: flex; gap: 10px; align-items: flex-start; }
+.task-time {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  padding-top: 2px;
+  min-width: 50px;
+}
+.task-content {}
+.task-title { font-size: 0.88rem; color: var(--text-bright); font-weight: 500; margin-bottom: 2px; }
+.task-desc  { font-size: 0.8rem; color: var(--text-muted); }
+
+/* ── Key interview points ── */
+.interview-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--amber);
+  border-radius: 0 8px 8px 0;
+  padding: 28px 32px;
+}
+.interview-section h2 { margin-bottom: 20px; color: var(--amber); }
+.interview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+@media (max-width: 640px) { .interview-grid { grid-template-columns: 1fr; } }
+.iq-item { display: flex; flex-direction: column; gap: 6px; }
+.iq-q { font-size: 0.83rem; font-weight: 600; color: var(--text-bright); }
+.iq-a { font-size: 0.82rem; color: var(--text); }
+
+/* Divider */
+.section-gap { margin-bottom: 56px; }
+</style>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<header class="hero">
+  <div class="hero-eyebrow">CV Project · 2-Day Build · Text Embeddings</div>
+  <h1>Academic Paper Recommender</h1>
+  <p class="hero-tagline">
+    A semantic search and recommendation engine for academic papers,
+    powered by citation-aware embeddings and approximate nearest-neighbour retrieval.
+  </p>
+  <div class="hero-pills">
+    <span class="pill pill-cyan">SPECTER2</span>
+    <span class="pill pill-cyan">FAISS</span>
+    <span class="pill pill-cyan">Semantic Scholar API</span>
+    <span class="pill pill-amber">Sentence-level Explainability</span>
+    <span class="pill pill-amber">Hybrid Re-ranking</span>
+    <span class="pill pill-green">Streamlit Demo</span>
+    <span class="pill pill-green">Offline Evaluation · NDCG@10</span>
+  </div>
+</header>
+
+<!-- ═══════════════ CORE CONCEPT ═══════════════ -->
+<section class="concept section-gap">
+  <h2>The Core Concept — Why SPECTER2?</h2>
+  <p>
+    A standard text embedding model (e.g. <code>text-embedding-ada-002</code>) maps text to vectors based purely on word co-occurrence patterns from web text. It has no understanding of the academic citation graph — the network of "paper A is important enough that paper B cites it". <strong>SPECTER2</strong> was fine-tuned specifically on that signal: for every anchor paper A that cites paper B, the model is trained via <em>triplet loss</em> to pull A and B close together while pushing A away from a random unrelated paper. The result is an embedding space where papers that researchers actually treat as related — regardless of vocabulary — cluster together.
+  </p>
+  <div class="compare-grid">
+    <div class="compare-box neg">
+      <div class="compare-label">Generic embedding (e.g. ada-002)</div>
+      <p>"Attention Is All You Need" and a paper about <em>customer attention in retail</em> may score high cosine similarity — same word, different universe. No knowledge of citation structure.</p>
+    </div>
+    <div class="compare-box pos">
+      <div class="compare-label">SPECTER2 (citation-aware)</div>
+      <p>"Attention Is All You Need" clusters tightly with BERT, GPT, and T5 papers — not because of shared vocabulary but because thousands of papers cite them together. Structural academic proximity encoded.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ PIPELINE ═══════════════ -->
+<section class="pipeline-section section-gap">
+  <h2>Full Pipeline — Data to Demo</h2>
+  <div class="pipeline">
+
+    <!-- Phase 1: Data Collection -->
+    <div class="phase-block day1">
+      <div class="phase-header">
+        <span class="phase-num">PHASE 01</span>
+        <span class="phase-name">Data Collection</span>
+        <span class="day-badge d1">Day 1 · Morning</span>
+      </div>
+      <div class="phase-body">
+        <div class="flow-row">
+          <div class="node">
+            <span class="node-title">Semantic Scholar API</span>
+            <span class="node-sub">Free academic graph API<br>S2 API key required</span>
+          </div>
+          <span class="arr">→</span>
+          <div class="node">
+            <span class="node-title">Raw Paper Records</span>
+            <span class="node-sub">~50k papers in CS/ML/NLP<br>JSON via paginated queries</span>
+          </div>
+          <span class="arr">→</span>
+          <div class="node">
+            <span class="node-title">Structured Corpus</span>
+            <span class="node-sub">paper_id · title · abstract<br>year · citations · references</span>
+          </div>
+          <span class="arr">→</span>
+          <div class="node">
+            <span class="node-title">Saved to Disk</span>
+            <span class="node-sub">Parquet or JSON<br>~200–400 MB</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-connector"><div class="connector-line"></div><div class="connector-head"></div></div>
+
+    <!-- Phase 2: Embedding (Core Innovation) -->
+    <div class="phase-block day1 core-phase">
+      <div class="phase-header">
+        <span class="phase-num">PHASE 02</span>
+        <span class="phase-name">Embedding — Citation-Aware Encoding</span>
+        <span class="day-badge d1">Day 1 · Afternoon</span>
+        <span class="core-tag">★ Core Innovation</span>
+      </div>
+      <div class="phase-body">
+        <div class="flow-row">
+          <div class="node">
+            <span class="node-title">Preprocessing</span>
+            <span class="node-sub">Format: "Title [SEP] Abstract"<br>filter no-abstract papers</span>
+          </div>
+          <span class="arr">→</span>
+          <div class="node core">
+            <span class="node-title">SPECTER2</span>
+            <span class="node-sub">allenai/specter2<br>768-dim output</span>
+          </div>
+          <span class="arr">→</span>
+          <div class="node">
+            <span class="node-title">Embedding Matrix</span>
+            <span class="node-sub">shape: [50k × 768]<br>L2-normalised</span>
+          </div>
+          <span class="arr">→</span>
+          <div class="node">
+            <span class="node-title">FAISS Index</span>
+            <span class="node-sub">IndexFlatIP<br>saved: papers.index</span>
+          </div>
+          <span class="arr">→</span>
+          <div class="node">
+            <span class="node-title">Metadata Store</span>
+            <span class="node-sub">id → title, abstract<br>year, citations</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-connector"><div class="connector-line"></div><div class="connector-head"></div></div>
+
+    <!-- Phase 3: Query Handling (Branch) -->
+    <div class="phase-block day2">
+      <div class="phase-header">
+        <span class="phase-num">PHASE 03</span>
+        <span class="phase-name">Query Handling — Two Input Modes</span>
+        <span class="day-badge d2">Day 2 · Morning</span>
+      </div>
+      <div class="phase-body">
+        <div class="branch-layout">
+          <!-- Entry point -->
+          <div class="node" style="width: 180px;">
+            <span class="node-title">User Query</span>
+            <span class="node-sub">via Streamlit interface</span>
+          </div>
+          <!-- Two arms -->
+          <div class="branch-arms">
+            <div class="branch-right-line"></div>
+            <div class="branch-arm">
+              <div class="node" style="width: 200px;">
+                <span class="node-title">Mode A: Single Paper</span>
+                <span class="node-sub">Paste title + abstract<br>OR enter ArXiv ID<br>→ auto-fetch abstract</span>
+              </div>
+            </div>
+            <div class="branch-arm">
+              <div class="node" style="width: 200px;">
+                <span class="node-title">Mode B: Reading Catalogue</span>
+                <span class="node-sub">Upload list of paper titles<br>embed each → average vectors<br>→ user taste profile</span>
+              </div>
+            </div>
+          </div>
+          <!-- Merge -->
+          <div class="branch-merge" style="margin-top:20px;">
+            <div class="arr-v">↓</div>
+            <div class="node" style="width: 200px; margin-top:4px;">
+              <span class="node-title">Query Embedding</span>
+              <span class="node-sub">768-dim vector<br>ready for FAISS lookup</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-connector"><div class="connector-line"></div><div class="connector-head"></div></div>
+
+    <!-- Phase 4: Retrieval + Re-ranking -->
+    <div class="phase-block day2">
+      <div class="phase-header">
+        <span class="phase-num">PHASE 04</span>
+        <span class="phase-name">Retrieval &amp; Hybrid Re-ranking</span>
+        <span class="day-badge d2">Day 2 · Morning</span>
+      </div>
+      <div class="phase-body">
+        <div class="flow-row">
+          <div class="node">
+            <span class="node-title">FAISS ANN Search</span>
+            <span class="node-sub">query → top-50 candidates<br>by cosine similarity</span>
+          </div>
+          <span class="arr">→</span>
+          <div class="node core">
+            <span class="node-title">Re-ranker</span>
+            <span class="node-sub">α·sem_sim + (1-α)·cite_overlap<br>α = 0.7 default</span>
+          </div>
+          <span class="arr">→</span>
+          <div class="node">
+            <span class="node-title">Top-10 Results</span>
+            <span class="node-sub">ranked by hybrid score<br>with metadata</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-connector"><div class="connector-line"></div><div class="connector-head"></div></div>
+
+    <!-- Phase 5: Explanation + Demo -->
+    <div class="phase-block day2">
+      <div class="phase-header">
+        <span class="phase-num">PHASE 05</span>
+        <span class="phase-name">Explanation &amp; Streamlit Demo</span>
+        <span class="day-badge d2">Day 2 · Afternoon</span>
+      </div>
+      <div class="phase-body">
+        <div class="flow-row">
+          <div class="node">
+            <span class="node-title">Sentence Attribution</span>
+            <span class="node-sub">embed sentences in both abstracts<br>find top-2 matching pairs<br>→ "Recommended because…"</span>
+          </div>
+          <span class="arr">→</span>
+          <div class="node">
+            <span class="node-title">Streamlit App</span>
+            <span class="node-sub">input tabs · filter sidebar<br>ranked result cards</span>
+          </div>
+          <span class="arr">→</span>
+          <div class="node">
+            <span class="node-title">Offline Evaluator</span>
+            <span class="node-sub">leave-one-out on citations<br>NDCG@10 · MRR vs TF-IDF</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════ COMPONENT DETAIL CARDS ═══════════════ -->
+<section class="details-section section-gap">
+  <h2>Component Details</h2>
+  <div class="cards-grid">
+
+    <!-- Card: Semantic Scholar API -->
+    <div class="card highlight-cyan">
+      <div class="card-eyebrow">Phase 01 · Data</div>
+      <h3>Semantic Scholar API</h3>
+      <ul class="detail-list">
+        <li>Free API, ~100 req/s with key. Register at semanticscholar.org</li>
+        <li>Fields to fetch: <code>title</code>, <code>abstract</code>, <code>year</code>, <code>citationCount</code>, <code>references</code>, <code>fieldsOfStudy</code></li>
+        <li>Strategy: bulk search by field (e.g. <code>query=machine+learning&amp;fieldsOfStudy=Computer+Science</code>) then paginate with <code>offset</code></li>
+        <li>Target ~50k papers with non-empty abstracts in CS/ML/NLP</li>
+        <li>Store references as a list of paper IDs — needed for citation overlap re-ranking</li>
+      </ul>
+    </div>
+
+    <!-- Card: SPECTER2 (spans 2) -->
+    <div class="card span2 highlight-cyan">
+      <div class="card-eyebrow">Phase 02 · Core Innovation</div>
+      <h3>SPECTER2 — Citation-Informed Embeddings</h3>
+      <p style="font-size:0.85rem; margin-bottom: 12px;">
+        SPECTER2 (Allen AI, 2023) is a transformer-based model fine-tuned from SciBERT using a <strong>triplet loss</strong> over the Semantic Scholar citation graph.
+        For each anchor paper A that cites paper B, B is the <em>positive</em>. A random paper C is the <em>negative</em>.
+        The model minimises <code>dist(A,B)</code> and maximises <code>dist(A,C)</code> — so the learned space encodes "papers researchers consider related" rather than surface lexical overlap.
+      </p>
+      <div class="formula-box">
+        <span style="color: var(--text-muted);">// Training objective (triplet loss)</span><br>
+        L = max(0, dist(anchor, positive) − dist(anchor, negative) + margin)<br><br>
+        <span style="color: var(--text-muted);">// Input format SPECTER2 expects</span><br>
+        text = f"<span style="color:var(--cyan);">{'{'}title{'}'}</span>" + tokenizer.sep_token + f"<span style="color:var(--cyan);">{'{'}abstract{'}'}</span>"<br><br>
+        <span style="color: var(--text-muted);">// Load model</span><br>
+        model = AutoModel.from_pretrained(<span style="color:var(--amber);">"allenai/specter2"</span>)
+      </div>
+      <ul class="detail-list" style="margin-top:8px;">
+        <li>Output: 768-dimensional float vector per paper. Batch process 32–64 at a time</li>
+        <li>Max 512 tokens — titles + abstracts fit comfortably within this limit</li>
+        <li>L2-normalise all vectors before storing so FAISS inner product = cosine similarity</li>
+        <li>Runtime: ~2–4 hours to embed 50k papers on CPU; ~20 min on GPU</li>
+      </ul>
+    </div>
+
+    <!-- Card: FAISS -->
+    <div class="card highlight-cyan">
+      <div class="card-eyebrow">Phase 02 · Indexing</div>
+      <h3>FAISS Vector Index</h3>
+      <ul class="detail-list">
+        <li>Facebook AI Similarity Search — efficient ANN for dense vectors</li>
+        <li>Use <code>IndexFlatIP</code> (exact inner product) for ≤100k papers — no approximation error</li>
+        <li>After L2-normalisation, inner product equals cosine similarity</li>
+        <li>Query returns top-K paper indices + similarity scores in &lt;5ms on CPU</li>
+        <li>Save: <code>faiss.write_index(index, "papers.index")</code> — loaded once at app startup via <code>@st.cache_resource</code></li>
+        <li>Pair with a <code>pandas</code> metadata DataFrame indexed by FAISS position</li>
+      </ul>
+    </div>
+
+    <!-- Card: Query Modes -->
+    <div class="card highlight-purple">
+      <div class="card-eyebrow">Phase 03 · Retrieval</div>
+      <h3>Two Query Modes</h3>
+      <ul class="detail-list">
+        <li><strong>Single paper:</strong> embed query title+abstract → 768-dim vector → FAISS search</li>
+        <li><strong>Reading catalogue:</strong> embed each paper in the user's list → compute mean vector → FAISS search (exclude already-read papers from results)</li>
+        <li>Mean pooling works because in a well-trained embedding space, the centroid of N read papers approximates the user's research interest region</li>
+        <li>Optional: weight catalogue embeddings by recency (exponential decay) or user rating if available</li>
+        <li>For ArXiv mode: fetch abstract via <code>arxiv</code> Python package using paper ID</li>
+      </ul>
+    </div>
+
+    <!-- Card: Re-ranking -->
+    <div class="card highlight-amber">
+      <div class="card-eyebrow">Phase 04 · Scoring</div>
+      <h3>Hybrid Re-ranking</h3>
+      <p style="font-size:0.85rem; margin-bottom: 10px;">
+        Pure semantic similarity can surface papers that share vocabulary but sit in different research sub-communities. Citation overlap is a complementary structural signal.
+      </p>
+      <div class="formula-box">
+        score = α × cosine_sim + (1−α) × citation_overlap<br><br>
+        <span style="color: var(--text-muted);">// citation_overlap: Jaccard-like</span><br>
+        cite_overlap = |refs(query) ∩ refs(candidate)| / max(|refs(query)|, 1)<br><br>
+        <span style="color: var(--text-muted);">// α = 0.7 (tunable hyperparameter)</span>
+      </div>
+      <ul class="detail-list" style="margin-top:8px;">
+        <li>α is a tunable hyperparameter — experiment with 0.5–0.9</li>
+        <li>Optional boosts: recency weight (newer papers), log(citationCount) for authority</li>
+        <li>Applied only to top-50 FAISS candidates — cheap at this scale</li>
+      </ul>
+    </div>
+
+    <!-- Card: Explanation -->
+    <div class="card highlight-amber">
+      <div class="card-eyebrow">Phase 05 · Explainability</div>
+      <h3>Sentence-Level Attribution</h3>
+      <p style="font-size:0.85rem; margin-bottom: 10px;">
+        For each recommendation, surface which part of the candidate abstract is most relevant to the query — this is the "why" the user sees in the demo.
+      </p>
+      <ul class="detail-list">
+        <li>Split query abstract and candidate abstract into sentences using <code>nltk.sent_tokenize</code></li>
+        <li>Embed sentences with a lightweight model: <code>all-MiniLM-L6-v2</code> (fast, 384-dim)</li>
+        <li>Find the sentence pair (one from each) with the highest cosine similarity</li>
+        <li>Template: <em>"Relevant because: '[candidate sentence]' relates to your interest in '[query sentence]'"</em></li>
+        <li>Addresses the job description's explicit emphasis on model explainability</li>
+      </ul>
+    </div>
+
+    <!-- Card: Streamlit Demo -->
+    <div class="card highlight-green">
+      <div class="card-eyebrow">Phase 05 · Interface</div>
+      <h3>Streamlit Demo</h3>
+      <ul class="detail-list">
+        <li><strong>Tab 1 — Single Paper:</strong> text inputs for title + abstract, plus ArXiv ID auto-fetch button</li>
+        <li><strong>Tab 2 — Reading List:</strong> paste or upload CSV of paper titles</li>
+        <li><strong>Sidebar filters:</strong> year range slider, min citation count, field of study multiselect</li>
+        <li><strong>Result cards:</strong> title · year · citation count · similarity score badge · Semantic Scholar link · explanation text</li>
+        <li>FAISS index + metadata loaded once at startup with <code>@st.cache_resource</code> — instant queries at runtime</li>
+        <li>Runs locally: <code>streamlit run app.py</code> — screenshottable for portfolio</li>
+      </ul>
+    </div>
+
+    <!-- Card: Evaluation -->
+    <div class="card highlight-green">
+      <div class="card-eyebrow">Phase 05 · Evaluation</div>
+      <h3>Offline Evaluation</h3>
+      <p style="font-size:0.85rem; margin-bottom: 10px;">
+        Gives you concrete numbers to quote in interviews and a legitimate benchmark for the README.
+      </p>
+      <ul class="detail-list">
+        <li><strong>Method:</strong> leave-one-out on citation links. Hold out 500 test papers. For each, query the FAISS index and check if the paper's real citations appear in top-K</li>
+        <li>Baseline comparison: same evaluation on TF-IDF cosine similarity — demonstrates SPECTER2 advantage quantitatively</li>
+      </ul>
+      <div class="metric-row">
+        <span class="metric-chip">Precision@10</span>
+        <span class="metric-chip">Recall@10</span>
+        <span class="metric-chip">NDCG@10</span>
+        <span class="metric-chip">MRR</span>
+      </div>
+    </div>
+
+    <!-- Card: Project structure -->
+    <div class="card span3 highlight-purple">
+      <div class="card-eyebrow">Repository Layout</div>
+      <h3>Project File Structure</h3>
+      <div class="file-tree">
+        <span class="dir">academic-recommender/</span><br>
+        &nbsp;&nbsp;<span class="dir">data/</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="file">fetch_papers.py</span> &nbsp;<span class="note">← Semantic Scholar API queries, pagination, save to Parquet</span><br>
+        &nbsp;&nbsp;<span class="dir">embeddings/</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="file">embed_papers.py</span> &nbsp;<span class="note">← SPECTER2 batch inference, L2 normalisation, save .npy</span><br>
+        &nbsp;&nbsp;<span class="dir">index/</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="file">build_index.py</span> &nbsp;<span class="note">← FAISS IndexFlatIP construction + write to disk</span><br>
+        &nbsp;&nbsp;<span class="dir">retrieval/</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="file">retrieve.py</span> &nbsp;&nbsp;&nbsp;<span class="note">← FAISS search, query embedding (single + catalogue modes)</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="file">rerank.py</span> &nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← hybrid scoring: cosine + citation overlap</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="file">explain.py</span> &nbsp;&nbsp;&nbsp;<span class="note">← sentence attribution with MiniLM</span><br>
+        &nbsp;&nbsp;<span class="dir">evaluation/</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="file">evaluate.py</span> &nbsp;&nbsp;<span class="note">← leave-one-out evaluation: NDCG@10, MRR vs TF-IDF baseline</span><br>
+        &nbsp;&nbsp;<span class="file">app.py</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← Streamlit demo entry point</span><br>
+        &nbsp;&nbsp;<span class="file">requirements.txt</span> &nbsp;<span class="note">← transformers, sentence-transformers, faiss-cpu, streamlit, arxiv</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════ DAY PLAN ═══════════════ -->
+<section class="day-plan-section section-gap">
+  <h2>2-Day Build Schedule</h2>
+  <div class="day-plan-grid">
+
+    <div class="day-col">
+      <div class="day-col-header d1">Day 1 — Backend Pipeline</div>
+      <div class="day-tasks">
+        <div class="task-item">
+          <span class="task-time">AM</span>
+          <div class="task-content">
+            <div class="task-title">Data collection script</div>
+            <div class="task-desc">Set up Semantic Scholar API key. Write <code>fetch_papers.py</code> — query by field, paginate, fetch references, save to Parquet. Target 50k papers.</div>
+          </div>
+        </div>
+        <div class="task-item">
+          <span class="task-time">MID</span>
+          <div class="task-content">
+            <div class="task-title">SPECTER2 embedding pipeline</div>
+            <div class="task-desc">Write <code>embed_papers.py</code>. Format inputs as "Title [SEP] Abstract", batch process with SPECTER2, L2-normalise, save embedding matrix as <code>.npy</code>.</div>
+          </div>
+        </div>
+        <div class="task-item">
+          <span class="task-time">PM</span>
+          <div class="task-content">
+            <div class="task-title">FAISS index construction</div>
+            <div class="task-desc">Write <code>build_index.py</code>. Create <code>IndexFlatIP</code>, add normalised embeddings, write index and metadata DataFrame to disk.</div>
+          </div>
+        </div>
+        <div class="task-item">
+          <span class="task-time">EVE</span>
+          <div class="task-content">
+            <div class="task-title">Basic retrieval — sanity check</div>
+            <div class="task-desc">Write <code>retrieve.py</code>. Test single-paper query end-to-end. Visually check: do the top-5 results look semantically related to the query?</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="day-col">
+      <div class="day-col-header d2">Day 2 — Interface &amp; Evaluation</div>
+      <div class="day-tasks">
+        <div class="task-item">
+          <span class="task-time">AM</span>
+          <div class="task-content">
+            <div class="task-title">Re-ranking + reading catalogue mode</div>
+            <div class="task-desc">Write <code>rerank.py</code> — hybrid score with citation overlap. Add catalogue mode to <code>retrieve.py</code>: mean-pool multiple embeddings, exclude already-read papers.</div>
+          </div>
+        </div>
+        <div class="task-item">
+          <span class="task-time">MID</span>
+          <div class="task-content">
+            <div class="task-title">Explanation layer</div>
+            <div class="task-desc">Write <code>explain.py</code>. Sentence tokenise both abstracts, embed with MiniLM, find top matching sentence pair, format explanation string.</div>
+          </div>
+        </div>
+        <div class="task-item">
+          <span class="task-time">PM</span>
+          <div class="task-content">
+            <div class="task-title">Streamlit demo</div>
+            <div class="task-desc">Build <code>app.py</code>. Two input tabs, filter sidebar, result cards with similarity badge + explanation text. Cache FAISS index at startup. Test ArXiv ID fetch.</div>
+          </div>
+        </div>
+        <div class="task-item">
+          <span class="task-time">EVE</span>
+          <div class="task-content">
+            <div class="task-title">Offline evaluation + README</div>
+            <div class="task-desc">Write <code>evaluate.py</code>. Run leave-one-out on 500 held-out papers, compute NDCG@10 vs TF-IDF baseline. Record numbers in README. Take demo screenshots.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════ INTERVIEW POINTS ═══════════════ -->
+<section class="interview-section">
+  <h2>Key Interview Talking Points</h2>
+  <div class="interview-grid">
+    <div class="iq-item">
+      <div class="iq-q">Why did you use SPECTER2 instead of a general embedding model?</div>
+      <div class="iq-a">General models embed based on lexical patterns from web text. SPECTER2 was fine-tuned with citation links as supervision — if two papers are co-cited, they should be close in the embedding space. This encodes academic proximity that vocabulary alone misses.</div>
+    </div>
+    <div class="iq-item">
+      <div class="iq-q">Why FAISS and not simple cosine similarity over the full corpus?</div>
+      <div class="iq-a">Brute-force cosine over 50k vectors is fast enough (&lt;1s), but the two-stage architecture — cheap ANN retrieval then expensive re-ranking on just top-50 — mirrors how production recommenders scale to millions of items.</div>
+    </div>
+    <div class="iq-item">
+      <div class="iq-q">How does the reading catalogue mode work?</div>
+      <div class="iq-a">Each paper in the user's history is embedded and the vectors are mean-pooled into a single "taste profile" vector. In a well-trained space, the centroid represents the average research interest region, which FAISS can query directly.</div>
+    </div>
+    <div class="iq-item">
+      <div class="iq-q">How did you evaluate the recommender without explicit user ratings?</div>
+      <div class="iq-a">Leave-one-out on citation links. If paper A cites paper B in reality, a good recommender should surface B in top-K when queried with A. This gives Precision@10, Recall@10, NDCG@10, and MRR — compared against a TF-IDF baseline.</div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,23 @@
+# Virtual environment
+venv/
+
+# Generated data files — run the pipeline to regenerate these
+data/papers.parquet
+embeddings/embeddings.npy
+embeddings/paper_ids.json
+index/papers.index
+index/metadata.json
+evaluation/results.json
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Environment variables
+.env
+
+# OS
+.DS_Store
+Thumbs.db

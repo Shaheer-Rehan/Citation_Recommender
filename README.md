@@ -1,4 +1,4 @@
-# Academic Paper Recommender
+# Citation Recommender
 
 A tool that takes a research paper and recommends other papers you'd probably find useful. You can either paste in a single abstract, or give it a list of papers you've already read and it'll suggest what to read next.
 
@@ -62,8 +62,8 @@ The absolute numbers are modest because the corpus is small (5,769 papers from S
 **Requirements:** Python 3.12+, around 5 GB of free disk space (model weights + corpus data).
 
 ```bash
-git clone https://github.com/yourusername/academic-recommender
-cd academic-recommender
+git clone https://github.com/Shaheer-Rehan/Citation_Recommender
+cd Citation_Recommender
 
 # Set up the virtual environment
 python -m venv venv
@@ -120,7 +120,7 @@ python -m pytest tests/
 ## Project structure
 
 ```
-academic-recommender/
+Citation_Recommender/
 ├── data/
 │   └── fetch_papers.py       Fetches paper metadata from Semantic Scholar API
 ├── embeddings/

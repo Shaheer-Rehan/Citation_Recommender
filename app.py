@@ -1,7 +1,7 @@
 """
 app.py
 ------
-Streamlit demo for the Academic Paper Recommender.
+Streamlit demo for the Citation Recommender.
 
 Run from the project root with:
   .\\venv\\Scripts\\python.exe -m streamlit run app.py
@@ -54,7 +54,7 @@ log = logging.getLogger(__name__)
 
 # ── Page configuration ─────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="Academic Paper Recommender",
+    page_title="Citation Recommender",
     page_icon="📄",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -580,7 +580,7 @@ def main() -> None:
     settings = render_sidebar()
 
     # ── Header ────────────────────────────────────────────────────────────────
-    st.title("Academic Paper Recommender")
+    st.title("Citation Recommender")
     st.markdown(
         "Semantic paper recommendation powered by **SPECTER2** citation-aware "
         "embeddings, **FAISS** vector search, and hybrid citation-overlap "

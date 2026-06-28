@@ -117,32 +117,6 @@ python -m pytest tests/
 
 ---
 
-## Project structure
-
-```
-Citation_Recommender/
-├── data/
-│   └── fetch_papers.py       Fetches paper metadata from Semantic Scholar API
-├── embeddings/
-│   └── embed_papers.py       Runs SPECTER2 over the corpus, saves the vectors
-├── index/
-│   └── build_index.py        Builds the FAISS vector index
-├── retrieval/
-│   ├── retrieve.py           Handles query embedding and FAISS search
-│   ├── rerank.py             Hybrid re-ranking (semantic + citation overlap)
-│   └── explain.py            Generates per-result explanations
-├── evaluation/
-│   └── evaluate.py           Leave-one-out citation retrieval evaluation
-├── tests/                    Unit tests for all modules
-├── results/                  Screenshots
-├── app.py                    Streamlit demo app
-└── requirements.txt
-```
-
-The generated data files (parquet, embeddings, FAISS index) are excluded from the repo via `.gitignore` — you regenerate them by running the pipeline above.
-
----
-
 ## Tech stack
 
 - **SPECTER2** — citation-aware paper embeddings (Allen AI / HuggingFace)
